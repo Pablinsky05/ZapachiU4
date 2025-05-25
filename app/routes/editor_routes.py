@@ -71,9 +71,15 @@ def eliminar_producto(producto_id):
         return redirect(url_for('public.catalogo'))
 
     cur = mysql.connection.cursor()
+
+    # 1. Eliminar registros relacionados en carrito_detalle
+    cur.execute("DELETE FROM carrito_detalle WHERE producto_id = %s", (producto_id,))
+
+    # 2. Eliminar el producto
     cur.execute("DELETE FROM productos WHERE id = %s", (producto_id,))
+
     mysql.connection.commit()
     cur.close()
 
-    flash('Producto eliminado', 'danger')
+    flash('Producto eliminado correctamente', 'success')
     return redirect(url_for('public.catalogo'))
