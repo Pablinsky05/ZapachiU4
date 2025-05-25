@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Carrito{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="mb-4">Carrito de Compras</h1>
+    {% if productos %}
+    <table class="table table-bordered text-center align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Imagen</th>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set total_general = 0 %}
+            {% for p in productos %}
+            {% set total_general = total_general + p[4] %}
+            <tr>
+                <td><img src="{{ url_for('static', filename='img/' ~ p[2]) }}" width="60"></td>
+                <td>{{ p[0] }}</td>
+                <td>${{ p[1] }}</td>
+                <td>{{ p[3] }}</td>
+                <td>${{ p[4] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="4" class="text-end">Total General:</th>
+                <th>${{ total_general }}</th>
+            </tr>
+        </tfoot>
+    </table>
+    <a href="{{ url_for('public.finalizar_compra') }}" class="btn btn-success mt-3">Finalizar compra</a>
+    {% else %}
+    <p class="alert alert-info">Tu carrito está vacío.</p>
+    {% endif %}
+</div>
+{% endblock %}

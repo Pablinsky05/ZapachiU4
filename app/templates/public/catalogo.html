@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Catálogo{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Catálogo de Productos</h1>
+
+    <!-- Botón para agregar nuevo producto (solo para editores) -->
+    {% if session.get('rol_id') == 2 %}
+    <div class="mb-3 text-end">
+        <a href="{{ url_for('editor.agregar_producto') }}" class="btn btn-success">Agregar nuevo producto</a>
+    </div>
+    {% endif %}
+
+    <div class="row">
+        {% for producto in productos %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ url_for('static', filename='img/' ~ producto[5]) }}" class="card-img-top" alt="{{ producto[1] }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ producto[1] }}</h5>
+                    <p class="card-text">{{ producto[2] }}</p>
+                    <p class="fw-bold text-success">${{ producto[3] }}</p>
+
+                    <a href="{{ url_for('public.agregar_carrito', producto_id=producto[0]) }}" class="btn btn-primary w-100 mb-2">Agregar al carrito</a>
+
+                    <!-- Botones de editor -->
+                    {% if session.get('rol_id') == 2 %}
+                    <a href="{{ url_for('editor.editar_producto', producto_id=producto[0]) }}" class="btn btn-warning w-100 mb-1">Editar</a>
+                    <a href="{{ url_for('editor.eliminar_producto', producto_id=producto[0]) }}" class="btn btn-danger w-100" onclick="return confirm('¿Estás seguro de eliminar este producto?');">Eliminar</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

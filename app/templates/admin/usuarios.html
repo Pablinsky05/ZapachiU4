@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Gestión de Usuarios{% endblock %}
+{% block body %}
+<div class="container mt-5">
+    <h2>Usuarios del sistema</h2>
+    <table class="table table-bordered mt-3 text-center align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Rol actual</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in usuarios %}
+            <tr>
+                <td>{{ u[0] }}</td>
+                <td>{{ u[1] }}</td>
+                <td>{{ u[2] }}</td>
+                <td>{{ u[3] }}</td>
+                <td>
+                    {% if u[3] == 'cliente' %}
+                        <a href="{{ url_for('admin.cambiar_rol', user_id=u[0], nuevo_rol=2) }}" class="btn btn-success btn-sm">Hacer editor</a>
+                    {% elif u[3] == 'editor' %}
+                        <a href="{{ url_for('admin.cambiar_rol', user_id=u[0], nuevo_rol=3) }}" class="btn btn-warning btn-sm">Quitar editor</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
