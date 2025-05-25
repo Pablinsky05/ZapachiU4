@@ -31,7 +31,7 @@ def agregar_producto():
         flash('Producto agregado exitosamente', 'success')
         return redirect(url_for('public.catalogo'))
 
-    return render_template('editor/agregar_producto.html')
+    return render_template('editor/agregar_productos.html')
 
 @editor_bp.route('/editar/<int:producto_id>', methods=['GET', 'POST'])
 def editar_producto(producto_id):
@@ -62,7 +62,7 @@ def editar_producto(producto_id):
     producto = cur.fetchone()
     cur.close()
 
-    return render_template('editor/editar_producto.html', producto=producto)
+    return render_template('editor/editar_productos.html', producto=producto)
 
 @editor_bp.route('/eliminar/<int:producto_id>')
 def eliminar_producto(producto_id):
